@@ -25,7 +25,8 @@ forkpush() {
   github="github.com"
   if [[ "${remote/github}" = "$remote" ]]; then # not a clone from github; must create repo instead of forking
     echo "creating repo"
-    curl -u "$1" "https://api.github.com/$1/repos" -X POST -H "Content-Type: application/json" -d '{"name":"$reponame"}' > /dev/null
+    data='{"name":"'$reponame'"}'
+    curl -u "$1" https://api.github.com/user/repos -X POST -H "Content-Type: application/json" -d $data > /dev/null
   else
     echo "forking repo"
     repo=$(echo $remote | cut -d "/" -f 4-)
